@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,24 +36,33 @@ public class Main {
 
             System.out.println("А скорость?");
 
-            // Думаю пока не надо заморчиваться с тем, что можно ввести не число?
-            int velocity = scanner.nextInt();
+            int velocity;
 
-            if (velocity <= 0) {
-                System.out.println("Машина должна ехать вперед, а не назад, попробуй еще раз");
-                continue;
-            }
+            while (true) {
+                String velocityStr = scanner.next();
 
-            if (velocity > 250) {
-                System.out.println("Слишком быстро! Еще раз.");
-                continue;
+                try {
+                    velocity = Integer.parseInt(velocityStr);
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Ты ввёл какой-то бред, попробуй еще");
+                    continue;
+                }
+
+                if (velocity <= 0) {
+                    System.out.println("Машина должна ехать вперед, а не назад, попробуй еще раз");
+                } else if (velocity > 250) {
+                    System.out.println("Слишком быстро! Еще раз.");
+                } else {
+                    break;
+                }
             }
 
             Car car = new Car(name, velocity);
 
             cars.add(car);
 
-            if(CAR_COUNT - carNumber != 0){
+            if (CAR_COUNT - carNumber != 0) {
                 System.out.printf("Отлично, осталось сделать машин: %d", CAR_COUNT - carNumber);
                 System.out.println();
             } else {
